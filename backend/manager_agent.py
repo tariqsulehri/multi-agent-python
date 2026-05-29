@@ -56,6 +56,8 @@ Rules:
 - Each string is one clear, self-contained sub-task
 - No intro sentence, no explanation, no markdown
 - Each sub-task must be completable independently
+- For comparison tasks, include at least one sub-task that directly compares
+  the topics. Do not create only separate definition/research sub-tasks.
 
 Return ONLY the JSON array. Nothing else.
 """

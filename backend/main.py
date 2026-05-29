@@ -102,7 +102,7 @@ if state["status"] == "error":
 
 print("\n⚡ Launching Workers...\n")
 
-while state["retry_count"] <= MAX_RETRIES:
+while True:
 
     # ── Run all Workers in parallel ───────────────────────
     run_workers()
@@ -126,9 +126,7 @@ while state["retry_count"] <= MAX_RETRIES:
 
     elif state["status"] == "rejected":
         # Reviewer rejected — check if we can retry
-        state["retry_count"] += 1
-
-        if state["retry_count"] > MAX_RETRIES:
+        if state["retry_count"] >= MAX_RETRIES:
             # Hit the retry limit — accept the result anyway
             # We never let the pipeline loop forever
             print(
@@ -136,7 +134,10 @@ while state["retry_count"] <= MAX_RETRIES:
                 f"Accepting current result.\n"
             )
             state["approved"] = True
+            state["status"]   = "approved"
             break
+
+        state["retry_count"] += 1
 
         # Still within retry limit — tell the user and retry
         print(

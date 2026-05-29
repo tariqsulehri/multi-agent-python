@@ -49,10 +49,12 @@ def run(task_index, sub_task):
         # Reviewer has given specific feedback
         # We attach it to the task so OpenAI knows what to fix
         message = (
-            f"Task: {sub_task}\n\n"
+            f"Main task: {state['main_task']}\n"
+            f"Your sub-task: {sub_task}\n\n"
             f"Previous attempt was rejected.\n"
             f"Reviewer feedback: {state['feedback']}\n\n"
-            f"Please improve your response based on this feedback."
+            f"Please improve your response based on this feedback, "
+            f"while directly supporting the main task."
         )
         print(
             f"Worker {task_index + 1} 🔄 [{thread_name}]: "
@@ -60,7 +62,11 @@ def run(task_index, sub_task):
         )
     else:
         # First attempt — just send the sub-task normally
-        message = sub_task
+        message = (
+            f"Main task: {state['main_task']}\n"
+            f"Your sub-task: {sub_task}\n\n"
+            f"Write content that directly supports the main task."
+        )
         print(
             f"Worker {task_index + 1} 🔄 [{thread_name}]: "
             f"working on → {sub_task[:50]}..."

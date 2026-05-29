@@ -62,7 +62,11 @@ def run():
         print("Reviewer ⏸ : result not ready, skipping.")
         return
 
-    print(f"Reviewer 🔍 : checking result (attempt {state['retry_count'] + 1} of 3)...")
+    max_attempts = 4
+    print(
+        f"Reviewer 🔍 : checking result "
+        f"(attempt {state['retry_count'] + 1} of {max_attempts})..."
+    )
 
     try:
         # Ask OpenAI to review the combined result
