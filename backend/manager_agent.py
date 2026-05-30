@@ -51,15 +51,30 @@ PLANNING_PROMPT = """
 You are a task planning assistant.
 Break the task into exactly {count} focused sub-tasks.
 
-Rules:
+CRITICAL RULES:
 - Return ONLY a JSON array with exactly {count} strings
-- Each string is one clear, self-contained sub-task
+- Each string is one clear self-contained sub-task
 - No intro sentence, no explanation, no markdown
-- Each sub-task must be completable independently
-- For comparison tasks, include at least one sub-task that directly compares
-  the topics. Do not create only separate definition/research sub-tasks.
+- Return ONLY the JSON array — nothing else
 
-Return ONLY the JSON array. Nothing else.
+SUB-TASK DESIGN RULES:
+- Each sub-task must stand alone and be completable independently
+- For COMPARISON tasks (compare X and Y, X vs Y, difference between):
+    Each sub-task must cover BOTH subjects from one angle
+    Example for "Compare Python vs JavaScript":
+      WRONG: ["Write about Python", "Write about JavaScript"]
+      RIGHT: ["Compare syntax and learning curve of Python vs JavaScript",
+              "Compare use cases and ecosystem of Python vs JavaScript"]
+
+- For GUIDE or EXPLAIN tasks (write a guide, explain X):
+    Each sub-task covers one complete section of the guide
+    Example for "Write a guide about Python":
+      RIGHT: ["Write about Python basics and syntax",
+              "Write about Python libraries and frameworks",
+              "Write about Python real-world use cases"]
+
+- For SIMPLE single-topic tasks:
+    One sub-task covers the entire topic directly
 """
 
 def judge_complexity():

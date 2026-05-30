@@ -11,7 +11,9 @@ import re
 
 def run():
     # Safety check — skip if pipeline failed or not ready
-    if state["status"] not in ["done", "approved"] or not state["combined_result"]:
+    # Accept either approved status or done status
+    
+    if not state["approved"]:
         print("Formatter ⏸ : no result to format yet, skipping.")
         return  # Exit early
 
